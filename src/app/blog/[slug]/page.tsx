@@ -4,11 +4,22 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import type {
   HTMLAttributes,
-  LiHTMLAttributes,
-  TdHTMLAttributes,
-  ThHTMLAttributes,
 } from "react";
+import hljs from "highlight.js/lib/core";
+import typescript from "highlight.js/lib/languages/typescript";
+import javascript from "highlight.js/lib/languages/javascript";
+import shell from "highlight.js/lib/languages/shell";
+import json from "highlight.js/lib/languages/json";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
+
+hljs.registerLanguage("ts", typescript);
+hljs.registerLanguage("tsx", typescript);
+hljs.registerLanguage("typescript", typescript);
+hljs.registerLanguage("js", javascript);
+hljs.registerLanguage("javascript", javascript);
+hljs.registerLanguage("bash", shell);
+hljs.registerLanguage("shell", shell);
+hljs.registerLanguage("json", json);
 
 type PageProps = {
   params: Promise<{
@@ -43,68 +54,38 @@ async function getPostSafe(slug: string) {
 const cx = (...classes: Array<string | undefined>) => classes.filter(Boolean).join(" ");
 
 const mdxComponents = {
-  h2: (props: HTMLAttributes<HTMLHeadingElement>) => (
-    <h2 {...props} className="mt-10 text-3xl font-semibold text-foreground" />
-  ),
-  p: (props: HTMLAttributes<HTMLParagraphElement>) => (
-    <p {...props} className="mt-4 text-base font-medium leading-8 text-(--ink-muted)" />
-  ),
-  pre: (props: HTMLAttributes<HTMLPreElement>) => (
+  pre: ({ className, ...rest }: HTMLAttributes<HTMLPreElement>) => (
     <pre
-      {...props}
-      className="mt-6 overflow-auto rounded-2xl border border-[#d0d7de] bg-[#f6f8fa] p-4 text-sm text-[#1f2328] font-[SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace]"
-    />
-  ),
-  code: (props: HTMLAttributes<HTMLElement>) => (
-    <code
-      {...props}
-      className="rounded border border-[#d0d7de] bg-[#f6f8fa] px-1.5 py-0.5 text-sm font-[SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace]"
-    />
-  ),
-  ul: (props: HTMLAttributes<HTMLUListElement>) => (
-    <ul {...props} className="mt-4 list-disc space-y-2 pl-6 text-(--ink-muted)" />
-  ),
-  li: (props: LiHTMLAttributes<HTMLLIElement>) => <li {...props} className="leading-7" />,
-  blockquote: (props: HTMLAttributes<HTMLQuoteElement>) => (
-    <blockquote
-      {...props}
-      className="mt-6 rounded-2xl bg-white/70 px-6 py-4 text-lg text-(--ink-muted) italic shadow-[0_12px_30px_rgba(28,27,25,0.06)]"
-    />
-  ),
-  table: ({ className, children, ...rest }: HTMLAttributes<HTMLTableElement>) => (
-    <div className="mt-8 overflow-x-auto rounded-[28px] bg-white/85 shadow-[0_18px_40px_rgba(28,27,25,0.08)]">
-      <table
-        {...rest}
-        className={cx(
-          "w-full min-w-[420px] border-collapse text-sm text-foreground",
-          className,
-        )}
-      >
-        {children}
-      </table>
-    </div>
-  ),
-  thead: (props: HTMLAttributes<HTMLTableSectionElement>) => (
-    <thead {...props} className={cx(props.className)} />
-  ),
-  tbody: (props: HTMLAttributes<HTMLTableSectionElement>) => (
-    <tbody {...props} className={cx("bg-white", props.className)} />
-  ),
-  tr: (props: HTMLAttributes<HTMLTableRowElement>) => (
-    <tr {...props} className={cx("border-b border-[#f1e7d5]", props.className)} />
-  ),
-  th: ({ className, ...rest }: ThHTMLAttributes<HTMLTableCellElement>) => (
-    <th
       {...rest}
       className={cx(
-        "px-4 py-3 text-left text-xs uppercase tracking-[0.4em] text-(--ink-muted)",
+        "mt-6 overflow-auto rounded-2xl bg-[#f6f8fa] p-4 text-sm text-[#1f2328] font-[SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace]",
         className,
       )}
     />
   ),
-  td: ({ className, ...rest }: TdHTMLAttributes<HTMLTableCellElement>) => (
-    <td {...rest} className={cx("px-4 py-3 align-top text-(--ink-muted)", className)} />
-  ),
+  code: ({ className, children, ...rest }: HTMLAttributes<HTMLElement>) => {
+    const rawCode = typeof children === "string" ? children : Array.isArray(children) ? children.join("") : "";
+    const language = (className ?? "").replace(/language-/, "").trim();
+
+    let highlighted = rawCode;
+
+    if (language && hljs.getLanguage(language)) {
+      highlighted = hljs.highlight(rawCode, { language }).value;
+    } else if (rawCode) {
+      highlighted = hljs.highlightAuto(rawCode).value;
+    }
+
+    return (
+      <code
+        {...rest}
+        className={cx(
+          "hljs rounded bg-[#f6f8fa] px-1.5 py-0.5 text-[0.8125rem] font-[SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace]",
+          className,
+        )}
+        dangerouslySetInnerHTML={{ __html: highlighted }}
+      />
+    );
+  },
 };
 
 export default async function BlogPostPage({ params }: PageProps) {
@@ -138,16 +119,20 @@ export default async function BlogPostPage({ params }: PageProps) {
             <h1 className="text-4xl font-semibold leading-snug">{post.meta.title}</h1>
             <p className="text-lg font-medium text-(--ink-muted)">{post.meta.summary}</p>
             {(post.meta.tags ?? []).length > 0 && (
-              <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.3em] text-(--ink-muted)">
+              <div className="mt-3 flex flex-wrap items-center gap-2 text-[0.75rem] text-(--ink-muted)">
                 {post.meta.tags?.map((tag) => (
-                  <span key={tag} className="rounded-full px-3 py-1 text-foreground">
-                    #{tag}
+                  <span
+                    key={tag}
+                    className="inline-flex items-center gap-1 rounded-full bg-(--accent-cloud)/80 px-2.5 py-0.5 text-[0.75rem] font-medium text-(--ink-muted)"
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full bg-(--accent-gold)" />
+                    <span>{tag}</span>
                   </span>
                 ))}
               </div>
             )}
           </header>
-          <div className="mt-10 space-y-6 text-base leading-8 text-(--ink-muted)">
+          <div className="mt-10 prose prose-neutral max-w-none">
             <MDXRemote source={post.content} components={mdxComponents} />
           </div>
         </div>

@@ -51,10 +51,14 @@ export default async function BlogPage() {
               </Link>
               <p className="mt-3 text-base font-medium text-(--ink-muted)">{post.meta.summary}</p>
               {(post.meta.tags ?? []).length > 0 && (
-                <div className="mt-4 flex flex-wrap gap-2 text-xs uppercase tracking-[0.3em] text-(--ink-muted)">
+                <div className="mt-4 flex flex-wrap items-center gap-2 text-[0.75rem] text-(--ink-muted)">
                   {post.meta.tags?.map((tag) => (
-                    <span key={tag} className="rounded-full px-3 py-1 text-foreground">
-                      #{tag}
+                    <span
+                      key={tag}
+                      className="inline-flex items-center gap-1 rounded-full bg-(--accent-cloud)/70 px-2.5 py-0.5 text-[0.75rem] font-medium text-(--ink-muted)"
+                    >
+                      <span className="h-1.5 w-1.5 rounded-full bg-(--accent-gold)" />
+                      <span>{tag}</span>
                     </span>
                   ))}
                 </div>

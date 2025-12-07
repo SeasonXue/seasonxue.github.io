@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HeaderNav } from "./HeaderNav";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -30,8 +31,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased">
-        {children}
+      <body className="antialiased text-foreground">
+        <div className="flex min-h-screen flex-col">
+          <HeaderNav />
+          <main className="flex-1">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );
