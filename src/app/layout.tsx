@@ -1,29 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://seasonxue.github.io"),
   title: {
-    default: "Season Xue · React + Tailwind SSG",
+    default: "Season Xue · 纸张像素手记",
     template: "%s | Season Xue",
   },
   description:
-    "Static Next.js + Tailwind CSS starter configured for automated GitHub Pages deployments.",
+    "Season 的轻盈纸张风格博客，记录创作、代码与生活灵感，并以像素彩蛋点缀。",
   openGraph: {
-    title: "Season Xue · React + Tailwind SSG",
+    title: "Season Xue · 纸张像素手记",
     description:
-      "Static Next.js + Tailwind CSS starter configured for automated GitHub Pages deployments.",
+      "Season 的轻盈纸张风格博客，记录创作、代码与生活灵感，并以像素彩蛋点缀。",
     url: "https://seasonxue.github.io",
     siteName: "Season Xue",
   },
@@ -41,9 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="antialiased">
         {children}
       </body>
     </html>

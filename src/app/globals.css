@@ -1,25 +1,65 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: dark;
-  --background: #020617;
-  --foreground: #f8fafc;
+  color-scheme: light;
+  --page-bg: #fdfaf4;
+  --page-bg-muted: #fbf2df;
+  --ink: #1c1b19;
+  --ink-muted: #5f5b55;
+  --accent-gold: #f3c75f;
+  --accent-sun: #f5ad42;
+  --accent-sky: #9fc4f6;
+  --accent-cloud: #ecf5ff;
+  --accent-leaf: #6ecb8a;
+  --accent-warn: #e07a5f;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at 20% 20%, rgba(255, 253, 246, 0.8), transparent 50%),
+    radial-gradient(circle at 80% 10%, rgba(255, 232, 180, 0.5), transparent 60%),
+    var(--page-bg);
+  font-family: "PingFang SC", "Hiragino Sans GB", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  line-height: 1.8;
+  font-weight: 500;
+  position: relative;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position:
+    left 5% top 12%,
+    right 10% top 25%;
+  background-size: 160px 100px, 120px 70px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.content-shell {
+  width: min(960px, 100%);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.paper-panel {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 32px;
+  box-shadow: 0 18px 40px rgba(28, 27, 25, 0.1);
+  backdrop-filter: blur(14px);
+}
+
+p {
+  font-weight: 500;
 }
