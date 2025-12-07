@@ -1,0 +1,23 @@
+---
+title: "你好，GitHub Pages"
+summary: "展示如何在 Next.js + Tailwind SSG 中撰写 MDX 文章。"
+date: "2025-12-07"
+tags:
+  - Next.js
+  - Tailwind
+---
+
+欢迎来到你的第一篇 MDX 文章！
+
+## 为什么选择 MDX？
+
+- 可以在 Markdown 中写 JSX 组件。
+- 完整静态导出，依旧适配 GitHub Pages。
+
+```tsx
+export default function Callout() {
+  return <p className="rounded-2xl bg-slate-900/50 p-4">自定义组件也能在 MDX 中使用。</p>;
+}
+```
+
+继续在 `content/posts` 文件夹中新增 `.mdx` 文件即可创建更多文章。
