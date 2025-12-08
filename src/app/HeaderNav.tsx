@@ -1,10 +1,10 @@
- "use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
-  { href: "/blog", label: "blog" },
+  { href: "/", label: "home" },
   { href: "/about", label: "about" },
 ];
 
@@ -17,19 +17,20 @@ export function HeaderNav() {
   };
 
   return (
-    <header className="sticky top-0 z-30 pt-4 pb-3">
-      <div className="content-shell flex justify-center">
-        <div className="pointer-events-auto flex w-full max-w-xl items-center justify-between rounded-full border border-white/65 bg-white/65 px-4 py-2 shadow-[0_18px_40px_rgba(28,27,25,0.14)] backdrop-blur-xl">
+    <header className="sticky top-0 z-30 pb-3 pt-4">
+      <div className="content-shell">
+        <div className="frosted-panel flex flex-wrap items-center gap-3 rounded-[999px] px-5 py-3">
           <Link
             href="/"
-            className="flex items-center gap-2 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-(--ink-muted) hover:text-foreground"
+            className="flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-(--ink-muted) transition-colors hover:text-(--ink)"
           >
-            <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-gradient-to-br from-(--accent-sun) to-(--accent-gold) shadow-[0_8px_20px_rgba(245,173,66,0.55)]">
-              <span className="h-2 w-2 rounded-full bg-white/95" />
+            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/70 bg-white/55 text-[0.65rem] shadow-[0_10px_24px_rgba(28,27,25,0.2)]">
+              <span className="h-2 w-2 rounded-full bg-(--accent-sun) shadow-[0_0_10px_rgba(245,173,66,0.6)]" />
             </span>
-            <span>Season Xue</span>
+            <span>Season 的博客</span>
           </Link>
-          <nav className="flex items-center gap-2 text-[0.7rem] font-medium uppercase tracking-[0.22em]">
+
+          <nav className="flex flex-1 items-center justify-end gap-1 text-[0.68rem] font-semibold uppercase tracking-[0.3em]">
             {navItems.map((item) => {
               const active = isActive(item.href);
               return (
@@ -37,13 +38,14 @@ export function HeaderNav() {
                   key={item.href}
                   href={item.href}
                   className={[
-                    "relative inline-flex items-center rounded-full px-3.5 py-1.5 transition-all duration-200",
+                    "inline-flex items-center rounded-full px-4 py-1.5 transition-colors",
                     active
-                      ? "bg-gradient-to-br from-(--accent-sun) to-(--accent-gold) text-foreground shadow-[0_10px_28px_rgba(243,199,95,0.7)]"
-                      : "text-(--ink-muted) hover:text-foreground hover:bg-white/70",
+                      ? "bg-(--accent-sun) text-white shadow-[0_8px_22px_rgba(224,122,95,0.35)]"
+                      : "text-(--ink-muted) hover:text-(--ink)",
                   ].join(" ")}
+                  aria-current={active ? "page" : undefined}
                 >
-                  <span className="relative z-10">{item.label}</span>
+                  {item.label}
                 </Link>
               );
             })}
