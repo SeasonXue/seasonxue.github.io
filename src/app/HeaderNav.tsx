@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const navItems = [
   { href: "/", label: "home" },
@@ -12,12 +12,8 @@ const navItems = [
 export function HeaderNav() {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  useEffect(() => {
-    setIsMenuOpen(false);
-  }, [pathname]);
-
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+  const closeMenu = () => setIsMenuOpen(false);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -86,6 +82,7 @@ export function HeaderNav() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={closeMenu}
                   className={[
                     "inline-flex w-full items-center justify-center rounded-full px-4 py-1.5 transition-colors md:w-auto",
                     active
