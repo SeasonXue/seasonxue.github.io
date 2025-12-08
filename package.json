@@ -5,9 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint .",
-    "static": "next build"
+    "start": "pnpm build && pnpx serve@latest out",
+    "lint": "eslint ."
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
