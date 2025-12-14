@@ -1,26 +1,25 @@
 import type { Metadata } from "next";
 import { HeaderNav } from "./HeaderNav";
+import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://seasonxue.github.io"),
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: "SeasonX · 博客",
-    template: "%s | SeasonX",
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.name}`,
   },
-  description:
-    "Season 的博客，记录创作、代码与生活灵感，并以像素彩蛋点缀。",
+  description: siteConfig.description,
   openGraph: {
-    title: "SeasonX · 博客",
-    description:
-      "Season 的博客，记录创作、代码与生活灵感，并以像素彩蛋点缀。",
-    url: "https://seasonxue.github.io",
-    siteName: "SeasonX",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
   },
   twitter: {
     card: "summary_large_image",
-    site: "@github",
-    creator: "@github",
+    site: siteConfig.author.twitter,
+    creator: siteConfig.author.twitter,
   },
 };
 

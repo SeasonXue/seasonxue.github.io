@@ -1,3 +1,14 @@
+import type { Metadata } from "next";
+import { siteConfig } from "@/lib/site-config";
+
+export const metadata: Metadata = {
+  title: "About",
+  description: "了解 SeasonXue - 关注 JavaScript 与 AI 生态技术的开发者。",
+  alternates: {
+    canonical: `${siteConfig.url}/about/`,
+  },
+};
+
 export default function AboutPage() {
   return (
     <div className="pb-16 pt-6">

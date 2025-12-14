@@ -14,6 +14,7 @@ export default async function Home() {
   return (
     <div className="pb-16 pt-6">
       <main className="content-shell space-y-6">
+        <h1 className="sr-only">SeasonX 博客 - 最新文章</h1>
         <section className="space-y-4">
           {posts.map((post) => (
             <article key={post.slug} className="frosted-panel px-6 py-5" aria-labelledby={`post-${post.slug}`}>

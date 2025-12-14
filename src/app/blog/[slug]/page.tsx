@@ -10,6 +10,7 @@ import javascript from "highlight.js/lib/languages/javascript";
 import shell from "highlight.js/lib/languages/shell";
 import json from "highlight.js/lib/languages/json";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
+import { siteConfig } from "@/lib/site-config";
 
 hljs.registerLanguage("ts", typescript);
 hljs.registerLanguage("tsx", typescript);
@@ -39,6 +40,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: post.meta.title,
     description: post.meta.summary,
+    alternates: {
+      canonical: `${siteConfig.url}/blog/${slug}/`,
+    },
+    openGraph: {
+      title: post.meta.title,
+      description: post.meta.summary,
+      type: 'article',
+      publishedTime: post.meta.date,
+      url: `${siteConfig.url}/blog/${slug}/`,
+    },
   };
 }
 
