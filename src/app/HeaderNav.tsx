@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
+import logo from "./logo.png";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -35,9 +37,13 @@ export function HeaderNav() {
             href="/"
             className="flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-(--ink-muted) transition-colors hover:text-(--ink)"
           >
-            <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/70 bg-white/55 text-[0.65rem] shadow-[0_10px_24px_rgba(28,27,25,0.2)]">
-              <span className="h-2 w-2 rounded-full bg-(--accent-sun) shadow-[0_0_10px_rgba(245,173,66,0.6)]" />
-            </span>
+            <Image
+              src={logo}
+              alt="Logo"
+              width={32}
+              height={32}
+              className="rounded-full"
+            />
             <span>Season 的博客</span>
           </Link>
 
