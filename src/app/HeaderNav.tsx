@@ -9,6 +9,7 @@ import { useState } from "react";
 const navItems = [
   { href: "/", label: "home" },
   { href: "/about", label: "about" },
+  { href: "/rss.xml", label: "rss" },
 ];
 
 export function HeaderNav() {
