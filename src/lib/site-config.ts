@@ -13,7 +13,7 @@ export const siteConfig = {
   title: 'SeasonX · 博客',
 
   /** 站点描述 */
-  description: 'Season 的博客，记录创作、代码与生活灵感，并以像素彩蛋点缀。',
+  description: 'Season 的博客，记录创作、代码与生活灵感。',
 
   /** 作者信息 */
   author: {
