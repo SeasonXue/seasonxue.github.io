@@ -11,6 +11,7 @@ import shell from "highlight.js/lib/languages/shell";
 import json from "highlight.js/lib/languages/json";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { siteConfig } from "@/lib/site-config";
+import { CopyButton } from "@/components/CopyButton";
 
 hljs.registerLanguage("ts", typescript);
 hljs.registerLanguage("tsx", typescript);
@@ -65,13 +66,16 @@ const cx = (...classes: Array<string | undefined>) => classes.filter(Boolean).jo
 
 const mdxComponents = {
   pre: ({ className, ...rest }: HTMLAttributes<HTMLPreElement>) => (
-    <pre
-      {...rest}
-      className={cx(
-        "mt-8 overflow-auto rounded-2xl border border-white/15 bg-[rgba(28,27,25,0.95)] p-5 text-sm text-white/90 font-[SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace]",
-        className,
-      )}
-    />
+    <div className="group relative mt-8 rounded-2xl border border-white/15 bg-[rgba(28,27,25,0.95)]">
+      <pre
+        {...rest}
+        className={cx(
+          "overflow-auto p-5 text-sm text-white/90 font-[SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace]",
+          className,
+        )}
+      />
+      <CopyButton />
+    </div>
   ),
   code: ({ className, children, ...rest }: HTMLAttributes<HTMLElement>) => {
     const rawCode = typeof children === "string" ? children : Array.isArray(children) ? children.join("") : "";
