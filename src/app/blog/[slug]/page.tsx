@@ -6,6 +6,7 @@ import {
   cloneElement,
   isValidElement,
   type HTMLAttributes,
+  type ReactElement,
 } from "react";
 import hljs from "highlight.js/lib/core";
 import typescript from "highlight.js/lib/languages/typescript";
@@ -79,7 +80,8 @@ const mdxComponents = {
       >
         {Children.map(children, (child) => {
           if (isValidElement(child)) {
-            return cloneElement(child as any, { isBlock: true });
+            const element = child as ReactElement<{ isBlock?: boolean }>;
+            return cloneElement(element, { isBlock: true });
           }
           return child;
         })}
