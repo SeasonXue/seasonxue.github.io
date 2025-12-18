@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import type {
-  HTMLAttributes,
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  type HTMLAttributes,
 } from "react";
 import hljs from "highlight.js/lib/core";
 import typescript from "highlight.js/lib/languages/typescript";
@@ -65,37 +68,42 @@ async function getPostSafe(slug: string) {
 const cx = (...classes: Array<string | undefined>) => classes.filter(Boolean).join(" ");
 
 const mdxComponents = {
-  pre: ({ className, ...rest }: HTMLAttributes<HTMLPreElement>) => (
-    <div className="group relative mt-8 rounded-2xl border border-white/15 bg-[rgba(28,27,25,0.95)]">
+  pre: ({ className, children, ...rest }: HTMLAttributes<HTMLPreElement>) => (
+    <div className="group relative mt-8">
       <pre
         {...rest}
         className={cx(
-          "overflow-auto p-5 text-sm text-white/90 font-[SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace]",
+          "overflow-auto !my-0",
           className,
         )}
-      />
+      >
+        {Children.map(children, (child) => {
+          if (isValidElement(child)) {
+            return cloneElement(child as any, { isBlock: true });
+          }
+          return child;
+        })}
+      </pre>
       <CopyButton />
     </div>
   ),
-  code: ({ className, children, ...rest }: HTMLAttributes<HTMLElement>) => {
+  code: ({ className, children, isBlock, ...rest }: HTMLAttributes<HTMLElement> & { isBlock?: boolean }) => {
     const rawCode = typeof children === "string" ? children : Array.isArray(children) ? children.join("") : "";
     const language = (className ?? "").replace(/language-/, "").trim();
 
+    // Fallback if isBlock prop is missing (e.g. not wrapped in pre), use language or check if it looks like a block
+    const isBlockCode = isBlock || !!language;
+
     let highlighted = rawCode;
 
-    if (language && hljs.getLanguage(language)) {
+    if (isBlockCode && language && hljs.getLanguage(language)) {
       highlighted = hljs.highlight(rawCode, { language }).value;
-    } else if (rawCode) {
-      highlighted = hljs.highlightAuto(rawCode).value;
     }
 
     return (
       <code
         {...rest}
-        className={cx(
-          "hljs rounded bg-[rgba(236,245,255,0.2)] px-1.5 py-0.5 text-[0.8125rem] text-white font-[SFMono-Regular,Consolas,'Liberation Mono',Menlo,monospace]",
-          className,
-        )}
+        className={cx(isBlockCode ? "hljs" : "", className)}
         dangerouslySetInnerHTML={{ __html: highlighted }}
       />
     );

@@ -32,13 +32,13 @@ export function CopyButton() {
       ref={buttonRef}
       onClick={handleCopy}
       aria-label="Copy code"
-      className="absolute top-3 right-3 rounded-lg border border-white/10 bg-black/30 p-2 text-white/70 backdrop-blur-sm transition-all hover:bg-black/50 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/50 opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
+      className="absolute top-4 right-4 rounded-md p-1.5 text-white/50 transition-all hover:bg-white/10 hover:text-white focus:outline-none opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
     >
       {copied ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
+          width="14"
+          height="14"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -52,8 +52,8 @@ export function CopyButton() {
       ) : (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
+          width="14"
+          height="14"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
